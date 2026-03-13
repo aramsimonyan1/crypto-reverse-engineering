@@ -111,13 +111,13 @@ Recovered flag:
     KPMG{Have_you-eva-s33n_binary_python?}
 
 ### Key Lessons
-This challenge demonstrates several important cybersecurity concepts:
-    Reverse engineering PyInstaller executables
-    Python bytecode analysis
-    Cryptographic protocol analysis
-    The dangers of incorrect cryptographic implementations
-    How small coding mistakes can completely break security guarantees
-    Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the XOR operator instead of exponentiation made the protocol trivially exploitable.
+    This challenge demonstrates several important cybersecurity concepts:
+        Reverse engineering PyInstaller executables
+        Python bytecode analysis
+        Cryptographic protocol analysis
+        The dangers of incorrect cryptographic implementations
+        How small coding mistakes can completely break security guarantees
+        Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the XOR operator instead of exponentiation made the protocol trivially exploitable.
 
 ### Tools Used
     Python
