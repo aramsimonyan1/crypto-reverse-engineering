@@ -73,18 +73,18 @@ This allowed analysis of the program logic responsible for:
 During analysis, a critical implementation error was discovered.
 
 The program used the following code to generate Diffie-Hellman values:
-```bash
+```python
     def generate_public_int(g,a,p):
         return g^a%p
 ```
 However, in Python the operator `^` represents bitwise XOR, not exponentiation.
 
 Correct Diffie-Hellman should use modular exponentiation:
-```bash
+```python
     pow(g, a, p)
 ```
 Instead, the program effectively computed:
-```bash
+```python
     A = g XOR (a mod p)
 ```
 This mistake completely breaks the security of the key exchange.
@@ -94,12 +94,12 @@ This mistake completely breaks the security of the key exchange.
 4. Reconstructing protocol parameters
 
 The generator value g was derived from a hardcoded string in the source code:
-```bash
+```python
     g = int(licenseText[39] + licenseText[89])
 ```
 
 By evaluating these indices, the generator was determined to be:
-```bash
+```python
     g = 11
 ```
 
@@ -109,16 +109,16 @@ By evaluating these indices, the generator was determined to be:
 Because `XOR` was used instead of exponentiation, the public keys reveal the private values directly.
 
 Given:
-```bash   
+```python  
     B = g ^ (b % p)
 ```
 
 we can recover:
-```bash   
+```python   
     b % p = g ^ B
 ```
 The shared secret used by the program was then calculated as:
-```bash
+```python
     shared_secret = A ^ (b % p)
 ```
 This allowed reconstruction of the exact secret used during encryption.
@@ -128,7 +128,7 @@ This allowed reconstruction of the exact secret used during encryption.
 6. Decrypting the message
 
 The program derived the AES key using:
-```bash    
+```python    
 AES_key = SHA256(shared_secret)
 ```
 
@@ -142,7 +142,7 @@ Using the recovered secret, the ciphertext was successfully decrypted.
 
 ### Result
 Recovered flag:
-```bash
+```
 KPMG{Have_you-eva-s33n_binary_python?}
 ```
 
