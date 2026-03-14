@@ -57,7 +57,7 @@ This revealed multiple files including:
 
 2. Recovering the Python source code
 
-The `.pyc` file was decompiled into readable Python code using an online decompiler:
+The `DH shared secret generation.pyc` file was decompiled into readable Python code using an online decompiler:
 ```bash
     https://pychaos.io
 ```
