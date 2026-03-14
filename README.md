@@ -9,40 +9,40 @@ The challenge involved analysing a suspicious executable and intercepted communi
 The project highlights how implementation mistakes in cryptographic protocols can completely compromise security, even when strong algorithms such as Diffie-Hellman and AES are used.
 
 ## Challenge Scenario
-
-At the beginning of the challenge, a Crypto.zip archive was provided containing:
-- A chat.txt file with a short intercepted communication between two users (Alice and Bob).
-- A DH shaed secret generation file without a visible extension, which turned out to be a compiled executable.
+At the beginning of the challenge, a `Crypto.zip` archive was provided containing:
+- A `chat.txt` file with a short intercepted communication between two users (Alice and Bob).
+- A `DH shaed secret generation` file without a visible extension, which turned out to be a compiled executable.
 
 The intercepted conversation revealed that Alice encrypted a flag before sending it to Bob using their custom Python implementation of Diffie-Hellman.
 
 Example excerpt from the intercepted communication:
-
+```bash 
 Alice: Hey, I managed to get another flag from H@ckademy
 Bob: Oh, send it please
 Alice: Sure, but just in case I'll encrypt it. Who knows who might be listening.
 Bob: OK
 Alice: Let's use our reliable Diffie-Hellman program.
+```
 
 The communication also included the following parameters:
-Prime modulus p
-Public key A (Alice)
-Public key B (Bob)
-Base64-encoded ciphertext
+- Prime modulus `p`
+- Public key `A` (Alice)
+- Public key `B` (Bob)
+- Base64-encoded ciphertext
 
 ### Challenge Objective
 
 The task was to:
-Analyse the provided executable.
-Understand how the key exchange and encryption were implemented.
-Identify any weaknesses in the cryptographic protocol.
-Recover the shared secret used between Alice and Bob.
-Use the secret to derive the AES key and decrypt the encrypted message (the flag).
+- Analyse the provided executable.
+- Understand how the key exchange and encryption were implemented.
+- Identify any weaknesses in the cryptographic protocol.
+- Recover the shared secret used between Alice and Bob.
+- Use the secret to derive the AES key and decrypt the encrypted message (the flag).
 
 ### Methodology
 1. Extracting the PyInstaller executable
 The provided binary was identified as a PyInstaller-packed Python application.
-Using pyinstxtractor, the contents of the executable were extracted:
+Using `pyinstxtractor`, the contents of the executable were extracted:
 ```python
     python pyinstxtractor.py DH_shared_secret_generation.exe
 ```
@@ -55,7 +55,7 @@ This revealed multiple files including:
 ```
 
 2. Recovering the Python source code
-The .pyc file was decompiled into readable Python code using an online decompiler:
+The `.pyc` file was decompiled into readable Python code using an online decompiler:
 ```bash
     https://pychaos.io
 ```
@@ -74,7 +74,7 @@ The program used the following code to generate Diffie-Hellman values:
     def generate_public_int(g,a,p):
         return g^a%p
 ```
-However, in Python the operator ^ represents bitwise XOR, not exponentiation.
+However, in Python the operator `^` represents bitwise XOR, not exponentiation.
 
 Correct Diffie-Hellman should use modular exponentiation:
 ```bash
@@ -102,7 +102,7 @@ By evaluating these indices, the generator was determined to be:
 
 5. Recovering the shared secret
 
-Because XOR was used instead of exponentiation, the public keys reveal the private values directly.
+Because `XOR` was used instead of exponentiation, the public keys reveal the private values directly.
 
 Given:
 ```bash   
@@ -150,7 +150,7 @@ This challenge demonstrates several important cybersecurity concepts:
 - Cryptographic protocol analysis
 - The dangers of incorrect cryptographic implementations
 - How small coding mistakes can completely break security guarantees
-- Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the XOR operator instead of exponentiation made the protocol trivially exploitable.
+- Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the `XOR` operator instead of exponentiation made the protocol trivially exploitable.
 
 ---
 
