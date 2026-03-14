@@ -99,11 +99,14 @@ This allowed reconstruction of the exact secret used during encryption.
 
 ### 6. Decrypting the message
 The program derived the AES key using:
-    AES_key = SHA256(shared_secret)
+```bash    
+AES_key = SHA256(shared_secret)
+```
 
 Encryption mode:
-    AES-CBC
-
+```bash
+AES-CBC
+```
 Using the recovered secret, the ciphertext was successfully decrypted.
 
 ### Result
