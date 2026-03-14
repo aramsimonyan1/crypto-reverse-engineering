@@ -10,11 +10,9 @@ The project highlights how implementation mistakes in cryptographic protocols ca
 
 ## Challenge Scenario
 
-At the beginning of the challenge, a ZIP archive was provided containing:
-
-A text file with a short intercepted communication between two users (Alice and Bob).
-
-A file without a visible extension, which turned out to be a compiled executable.
+At the beginning of the challenge, a Crypto.zip archive was provided containing:
+- A chat.txt file with a short intercepted communication between two users (Alice and Bob).
+- A DH shaed secret generation file without a visible extension, which turned out to be a compiled executable.
 
 The intercepted conversation revealed that Alice encrypted a flag before sending it to Bob using their custom Python implementation of Diffie-Hellman.
 
@@ -46,7 +44,7 @@ Use the secret to derive the AES key and decrypt the encrypted message (the flag
 The provided binary was identified as a PyInstaller-packed Python application.
 Using pyinstxtractor, the contents of the executable were extracted:
 ```python
-    python pyinstxtractor.py dh_secret.exe
+    python pyinstxtractor.py DH_shared_secret_generation.exe
 ```
 This revealed multiple files including:
 - Python runtime libraries
