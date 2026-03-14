@@ -45,7 +45,7 @@ Use the secret to derive the AES key and decrypt the encrypted message (the flag
 1. Extracting the PyInstaller executable
 The provided binary was identified as a PyInstaller-packed Python application.
 Using pyinstxtractor, the contents of the executable were extracted:
-```bash
+```python
     python pyinstxtractor.py dh_secret.exe
 ```
 This revealed multiple files including:
