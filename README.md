@@ -52,7 +52,7 @@ bundled dependencies
 a compiled Python bytecode file:
     DH shared secret generation.pyc
 
----
+
 
 2. Recovering the Python source code
 The .pyc file was decompiled into readable Python code using an online decompiler:
@@ -62,7 +62,7 @@ This allowed analysis of the program logic responsible for:
 Diffie-Hellman key exchange
 AES encryption/decryption
 
----
+
 
 3. Identifying the cryptographic flaw
 During analysis, a critical implementation error was discovered.
@@ -79,18 +79,18 @@ Instead, the program effectively computed:
     A = g XOR (a mod p)
 This mistake completely breaks the security of the key exchange.
 
----
 
-### 4. Reconstructing protocol parameters
+
+4. Reconstructing protocol parameters
 The generator value g was derived from a hardcoded string in the source code:
     g = int(licenseText[39] + licenseText[89])
 
 By evaluating these indices, the generator was determined to be:
     g = 11
 
----
 
-### 5. Recovering the shared secret
+
+5. Recovering the shared secret
 
 Because XOR was used instead of exponentiation, the public keys reveal the private values directly.
 
@@ -105,9 +105,9 @@ The shared secret used by the program was then calculated as:
 
 This allowed reconstruction of the exact secret used during encryption.
 
----
 
-### 6. Decrypting the message
+
+6. Decrypting the message
 The program derived the AES key using:
 ```bash    
 AES_key = SHA256(shared_secret)
