@@ -45,22 +45,26 @@ Use the secret to derive the AES key and decrypt the encrypted message (the flag
 1. Extracting the PyInstaller executable
 The provided binary was identified as a PyInstaller-packed Python application.
 Using pyinstxtractor, the contents of the executable were extracted:
+```bash
     python pyinstxtractor.py dh_secret.exe
+```
 This revealed multiple files including:
-Python runtime libraries
-bundled dependencies
-a compiled Python bytecode file:
+- Python runtime libraries
+- bundled dependencies
+- a compiled Python bytecode file:
+```bash
     DH shared secret generation.pyc
-
-
+```
 
 2. Recovering the Python source code
 The .pyc file was decompiled into readable Python code using an online decompiler:
+```bash
     https://pychaos.io
+```
 
 This allowed analysis of the program logic responsible for:
-Diffie-Hellman key exchange
-AES encryption/decryption
+- Diffie-Hellman key exchange
+- AES encryption/decryption
 
 
 
@@ -68,26 +72,34 @@ AES encryption/decryption
 During analysis, a critical implementation error was discovered.
 
 The program used the following code to generate Diffie-Hellman values:
+```bash
     def generate_public_int(g,a,p):
         return g^a%p
+```
 However, in Python the operator ^ represents bitwise XOR, not exponentiation.
 
 Correct Diffie-Hellman should use modular exponentiation:
+```bash
     pow(g, a, p)
-
+```
 Instead, the program effectively computed:
+```bash
     A = g XOR (a mod p)
+```
 This mistake completely breaks the security of the key exchange.
 
 
 
 4. Reconstructing protocol parameters
 The generator value g was derived from a hardcoded string in the source code:
+```bash
     g = int(licenseText[39] + licenseText[89])
+```
 
 By evaluating these indices, the generator was determined to be:
+```bash
     g = 11
-
+```
 
 
 5. Recovering the shared secret
@@ -95,14 +107,18 @@ By evaluating these indices, the generator was determined to be:
 Because XOR was used instead of exponentiation, the public keys reveal the private values directly.
 
 Given:
+```bash   
     B = g ^ (b % p)
+```
 
 we can recover:
+```bash   
     b % p = g ^ B
-
+```
 The shared secret used by the program was then calculated as:
+```bash
     shared_secret = A ^ (b % p)
-
+```
 This allowed reconstruction of the exact secret used during encryption.
 
 
