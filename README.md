@@ -55,6 +55,7 @@ This revealed multiple files including:
 ```
 
 2. Recovering the Python source code
+
 The `.pyc` file was decompiled into readable Python code using an online decompiler:
 ```bash
     https://pychaos.io
@@ -67,6 +68,7 @@ This allowed analysis of the program logic responsible for:
 
 
 3. Identifying the cryptographic flaw
+
 During analysis, a critical implementation error was discovered.
 
 The program used the following code to generate Diffie-Hellman values:
@@ -89,6 +91,7 @@ This mistake completely breaks the security of the key exchange.
 
 
 4. Reconstructing protocol parameters
+
 The generator value g was derived from a hardcoded string in the source code:
 ```bash
     g = int(licenseText[39] + licenseText[89])
