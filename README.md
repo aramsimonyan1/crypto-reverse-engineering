@@ -120,9 +120,9 @@ Recovered flag:
         Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the XOR operator instead of exponentiation made the protocol trivially exploitable.
 
 ### Tools Used
-    Python
-    pyinstxtractor
-    Python bytecode decompilers
-    PyCryptodome
-    Base64 decoding
-    Cryptographic analysis
+- Python
+- pyinstxtractor
+- Python bytecode decompilers
+- PyCryptodome
+- Base64 decoding
+- Cryptographic analysis
