@@ -52,6 +52,8 @@ bundled dependencies
 a compiled Python bytecode file:
     DH shared secret generation.pyc
 
+---
+
 2. Recovering the Python source code
 The .pyc file was decompiled into readable Python code using an online decompiler:
     https://pychaos.io
@@ -59,6 +61,8 @@ The .pyc file was decompiled into readable Python code using an online decompile
 This allowed analysis of the program logic responsible for:
 Diffie-Hellman key exchange
 AES encryption/decryption
+
+---
 
 3. Identifying the cryptographic flaw
 During analysis, a critical implementation error was discovered.
@@ -75,12 +79,16 @@ Instead, the program effectively computed:
     A = g XOR (a mod p)
 This mistake completely breaks the security of the key exchange.
 
+---
+
 ### 4. Reconstructing protocol parameters
 The generator value g was derived from a hardcoded string in the source code:
     g = int(licenseText[39] + licenseText[89])
 
 By evaluating these indices, the generator was determined to be:
     g = 11
+
+---
 
 ### 5. Recovering the shared secret
 
@@ -97,6 +105,8 @@ The shared secret used by the program was then calculated as:
 
 This allowed reconstruction of the exact secret used during encryption.
 
+---
+
 ### 6. Decrypting the message
 The program derived the AES key using:
 ```bash    
@@ -109,11 +119,15 @@ AES-CBC
 ```
 Using the recovered secret, the ciphertext was successfully decrypted.
 
+---
+
 ### Result
 Recovered flag:
 ```bash
 KPMG{Have_you-eva-s33n_binary_python?}
 ```
+
+---
 
 ### Key Lessons
 This challenge demonstrates several important cybersecurity concepts:
@@ -123,6 +137,8 @@ This challenge demonstrates several important cybersecurity concepts:
 - The dangers of incorrect cryptographic implementations
 - How small coding mistakes can completely break security guarantees
 - Even though the program attempted to use strong cryptographic primitives (Diffie-Hellman and AES), the misuse of the XOR operator instead of exponentiation made the protocol trivially exploitable.
+
+---
 
 ### Tools Used
 - Python
