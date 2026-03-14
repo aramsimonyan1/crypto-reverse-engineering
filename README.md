@@ -41,6 +41,7 @@ The task was to:
 
 ### Methodology
 1. Extracting the PyInstaller executable
+
 The provided binary was identified as a PyInstaller-packed Python application.
 Using `pyinstxtractor`, the contents of the executable were extracted:
 ```python
@@ -50,7 +51,7 @@ This revealed multiple files including:
 - Python runtime libraries
 - bundled dependencies
 - a compiled Python bytecode file:
-```bash
+```python
     DH shared secret generation.pyc
 ```
 
@@ -125,6 +126,7 @@ This allowed reconstruction of the exact secret used during encryption.
 
 
 6. Decrypting the message
+
 The program derived the AES key using:
 ```bash    
 AES_key = SHA256(shared_secret)
