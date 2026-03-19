@@ -93,7 +93,7 @@ This mistake completely breaks the security of the key exchange.
 
 4. Reconstructing protocol parameters
 
-The generator value g was derived from a hardcoded string in the source code:
+The generator value `g` was derived from a hardcoded string in the source code:
 ```python
     g = int(licenseText[39] + licenseText[89])
 ```
